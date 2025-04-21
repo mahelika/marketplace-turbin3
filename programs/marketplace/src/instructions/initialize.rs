@@ -1,5 +1,6 @@
 use anchor_lang::prelude::*;
 use anchor_spl::token_interface::{Mint, TokenInterface};
+use crate::Marketplace;
 
 #[derive(Accounts)]
 #[instruction(name: String)]
@@ -35,6 +36,15 @@ pub struct Initialize<'info>{
 
 impl<'info>Initialize<'info> {
     pub fn init(&mut self, name: String, fee: u16, bumps: &InitializeBumps) -> Result<()> {
-        self.marketplace.set_inner(Marketplace)
+        self.marketplace.set_inner(Marketplace{
+            admin: self.admin.key(),
+            fee,
+            bump: bumps.marketplace,
+            treasury_bump: bumps.treasury,
+            rewards_bump: bumps.reward_mint,
+            name
+        });
+
+        Ok(())
     }
 }
