@@ -2,7 +2,7 @@ use anchor_lang::prelude::*;
 
 #[account]
 pub struct Listing {
-    pub make: Pubkey,
+    pub maker: Pubkey,
     pub maker_mint: Pubkey,
     pub price: u64,
     pub bump: u8
